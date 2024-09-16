@@ -29,7 +29,7 @@ def add_to_cart(item: CartItem):
 def delete_from_cart(book_id: int):
     cart = load_data(CART_FILE)
     if len(cart) == 0:
-        return {"message": "No items in cart. Nothing to delete"}
+        raise HTTPException(status_code=404, detail="Item not found.")
     updated_cart = [item for item in cart if item['book_id'] != book_id]
     save_data(CART_FILE, updated_cart)
     return {"message": "Removed item from cart."}
