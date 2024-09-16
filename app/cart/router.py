@@ -12,7 +12,7 @@ router = APIRouter(
 CART_FILE = 'app/cart.json'
 
 # add to cart
-@router.post("/cart", status_code=201)
+@router.post("", status_code=201)
 def add_to_cart(item: CartItem):
     cart = load_data(CART_FILE)
     for cart_item in cart:
@@ -25,15 +25,17 @@ def add_to_cart(item: CartItem):
     return {"message": "Added book to cart."}
 
 # remove from cart
-@router.delete("/cart/{book_id}", status_code=204)
+@router.delete("/{book_id}", status_code=204)
 def delete_from_cart(book_id: int):
     cart = load_data(CART_FILE)
+    if len(cart) == 0:
+        return {"message": "No items in cart. Nothing to delete"}
     updated_cart = [item for item in cart if item['book_id'] != book_id]
     save_data(CART_FILE, updated_cart)
     return {"message": "Removed item from cart."}
 
 # update cart
-@router.put("/cart", status_code=200)
+@router.put("/update", status_code=200)
 def update_cart(item: CartItem):
     cart = load_data(CART_FILE)
     for cart_item in cart:
