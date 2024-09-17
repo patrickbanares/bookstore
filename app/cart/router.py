@@ -11,6 +11,12 @@ router = APIRouter(
 
 CART_FILE = 'app/cart.json'
 
+# get cart
+@router.get("", status_code=200)
+def get_cart():
+    return load_data(CART_FILE)
+
+
 # add to cart
 @router.post("", status_code=201)
 def add_to_cart(item: CartItem):
